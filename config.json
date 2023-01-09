@@ -1,0 +1,64 @@
+{
+    "version": "1.0",
+    "checks": [
+        {
+            "type": "event",
+            "event": "null",
+            "rate": 1,
+            "todo": {
+                "type": "todo",
+                "actions": [
+                    {
+                        "type": "action",
+                        "action": "screen_shot",
+                        "save": "desktop.png"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "event",
+            "event": "image_appear",
+        	"base": "desktop.png",
+            "image": "./baseimg/bili.png",
+            "var": "last_pos",
+            "rate": 1,
+            "todo": {
+                "type": "todo",
+                "actions": [
+                    {
+                        "type": "action",
+                        "action": "move_mouse_to",
+                        "var": "last_pos"
+                    },
+                    {
+                        "type": "action",
+                        "action": "sleep",
+                        "sleep_time": 0.2
+                    },
+                    {
+                        "type": "action",
+                        "action": "mouse_click",
+                        "push_time": 0.1
+                    }
+                ]
+            }
+        },
+        {
+            "type": "event",
+            "event": "null",
+            "rate": 1,
+            "todo": {
+                "type": "todo",
+                "actions": [
+                    {
+                        "type": "action",
+                        "action": "remove_file",
+                        "ignore_error": true,
+                        "path": "desktop.png"
+                    }
+                ]
+            }
+        }
+    ]
+}
