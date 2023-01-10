@@ -20,7 +20,7 @@
         {
             "type": "event",
             "event": "image_appear",
-        	"base": "desktop.png",
+            "base": "desktop.png",
             "image": "./baseimg/bili.png",
             "precision": 0.95,
             "var": "last_pos",
