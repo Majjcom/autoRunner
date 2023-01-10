@@ -18,8 +18,7 @@ def main() -> None:
     ctx = baseobj.RunningContext(1.0)
     if not load:
         return
-    for i in load:
-        ctx.add_event(i)
+    ctx.load_config(load)
     ctx.run()
     
     print('Load finish ...')

@@ -111,6 +111,7 @@ class Action_get_image_pos(Action):
             'var',
             'base',
             'image'
+            'precision'
         ]
         check = utils.check_config_arguments(key_words, config_)
         if not check:
@@ -118,6 +119,7 @@ class Action_get_image_pos(Action):
         self._var = config_['var']
         self._base = config_['base']
         self._image = config_['image']
+        self._precision = config_['precision']
     
     def call(self) -> bool:
         im_src = ac.imread(self._base)
@@ -125,7 +127,7 @@ class Action_get_image_pos(Action):
         get = ac.find_template(im_src, im_tgt)
         if get is None:
             return False
-        if get['confidence'] < 0.95:
+        if get['confidence'] < self._precision:
             return False
         self._root.set_var(self._var, get)
         return True

@@ -1,5 +1,6 @@
 {
     "version": "1.0",
+    "interval": 1.0,
     "checks": [
         {
             "type": "event",
@@ -21,6 +22,7 @@
             "event": "image_appear",
         	"base": "desktop.png",
             "image": "./baseimg/bili.png",
+            "precision": 0.95,
             "var": "last_pos",
             "rate": 1,
             "todo": {

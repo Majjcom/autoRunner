@@ -4,12 +4,19 @@ import utils
 import json
 
 
-def load_config_file(path: str) -> list:
+class Config:
+    def __init__(self, events_: list, interval_: float):
+        self.events = events_
+        self.interval = interval_
+
+
+def load_config_file(path: str) -> Config:
     data = None
     with open(path, 'r', encoding='utf_8') as f:
         data = json.load(f)
     key_words = [
         'version',
+        'interval',
         'checks'
     ]
     check = utils.check_config_arguments(key_words, data)
@@ -31,5 +38,5 @@ def load_config_file(path: str) -> list:
         if i['event'] not in baseobj.event_available:
             raise ParseErrorException('Loading config error, event not support: {}'.format(i['event']))
         event_list.append(baseobj.event_map[i['event']](i))
-    return event_list
+    return Config(event_list, data['interval'])
 

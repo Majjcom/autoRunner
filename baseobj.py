@@ -2,6 +2,7 @@ import threading as _threading
 from pprint import pprint
 from exceptions import *
 import time as _time
+import config_loader
 from base import *
 import traceback
 import actions
@@ -103,6 +104,7 @@ class Event_image_appear(Event):
             'type',
             'base',
             'image',
+            'precision',
             'var',
             'rate',
             'todo'
@@ -114,6 +116,7 @@ class Event_image_appear(Event):
             raise ParseErrorException('Object Event parse error, type error: {}'.format(config_['type']))
         self._base = config_['base']
         self._image = config_['image']
+        self._precision = config_['precision']
         self._var = config_['var']
         self._rate = config_['rate']
         self._todo = Todo(config_['todo'], self)
@@ -124,7 +127,7 @@ class Event_image_appear(Event):
         get = ac.find_template(im_src, im_tgt)
         if get is None:
             return
-        if get['confidence'] < 0.95:
+        if get['confidence'] < self._precision:
             return
         self.set_var(self._var, get)
         self._todo.call()
@@ -152,13 +155,19 @@ class _Running_thread(_threading.Thread):
 class RunningContext:
     def __init__(self, check_rate_: float):
         self.check_rate = check_rate_
+        self._interval = 5.0
         self._event_pool = list()
         self.run_end = False
         self.thread_ended = False
         self.error_occured = False
     
-    def add_event(self, event_: Event):
+    def _add_event(self, event_: Event):
         self._event_pool.append(event_)
+    
+    def load_config(self, config_):
+        for i in config_.events:
+            self._add_event(i)
+        self._interval = config_.interval
 
     def run(self):
         runner = _Running_thread(self)
