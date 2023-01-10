@@ -153,8 +153,8 @@ class _Running_thread(_threading.Thread):
 
 
 class RunningContext:
-    def __init__(self, check_rate_: float):
-        self.check_rate = check_rate_
+    def __init__(self):
+        self.check_rate = 5.0
         self._interval = 5.0
         self._event_pool = list()
         self.run_end = False
@@ -168,6 +168,7 @@ class RunningContext:
         for i in config_.events:
             self._add_event(i)
         self._interval = config_.interval
+        self.check_rate = self._interval
 
     def run(self):
         runner = _Running_thread(self)

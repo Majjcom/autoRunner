@@ -15,7 +15,7 @@ def main() -> None:
         print(info, end='')
         input('Press enter to close the program...')
         return
-    ctx = baseobj.RunningContext(1.0)
+    ctx = baseobj.RunningContext()
     if not load:
         return
     ctx.load_config(load)
