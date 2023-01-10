@@ -4,6 +4,9 @@ import utils
 import json
 
 
+_version = "1.1"
+
+
 class Config:
     def __init__(self, events_: list, interval_: float):
         self.events = events_
@@ -22,7 +25,7 @@ def load_config_file(path: str) -> Config:
     check = utils.check_config_arguments(key_words, data)
     if not check:
         raise ParseErrorException('Loading config error, missing argument.')
-    if data['version'] != '1.0':
+    if data['version'] != _version:
         raise ParseErrorException('Loading config error, version not match.')
     event_list = list()
     for i in data['checks']:
