@@ -129,7 +129,7 @@ class Event_image_appear(Event):
             return
         if get['confidence'] < self._precision:
             return
-        self.set_var(self._var, get)
+        self.set_var(self._var, get['result'])
         self._todo.call()
 
 

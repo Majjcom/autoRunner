@@ -15,7 +15,8 @@ _actions_available = {
     'mouse_click',
     'get_image_pos',
     'screen_shot',
-    'remove_file'
+    'remove_file',
+    'text_input'
 }
 
 _actions_map = dict()
@@ -63,7 +64,7 @@ class Action_move_mouse_to(Action):
     
     def call(self) -> bool:
         target = self._root.get_var(self._var)
-        pyautogui.moveTo(target['result'])
+        pyautogui.moveTo(target)
         return True
 
 
@@ -110,7 +111,7 @@ class Action_get_image_pos(Action):
             'action',
             'var',
             'base',
-            'image'
+            'image',
             'precision'
         ]
         check = utils.check_config_arguments(key_words, config_)
@@ -129,7 +130,7 @@ class Action_get_image_pos(Action):
             return False
         if get['confidence'] < self._precision:
             return False
-        self._root.set_var(self._var, get)
+        self._root.set_var(self._var, get['result'])
         return True
 
 
@@ -171,7 +172,53 @@ class Action_remove_file(Action):
             if self._ignore_error:
                 return True
             return False
-        os.remove(self._path)
+        try:
+            os.remove(self._path)
+        except:
+            if not self._ignore_error:
+                return False
+        return True
+
+
+class Action_text_input(Action):
+    def __init__(self, config_: dict, root_):
+        super().__init__(config_, root_)
+        self._key_to_change = {
+            ' ': 'space'
+        }
+    
+    def _parse_config(self, config_: dict) -> None:
+        key_words = [
+            'type',
+            'action',
+            'text'
+        ]
+        check = utils.check_config_arguments(key_words, config_)
+        if not check:
+            raise ParseErrorException("Loading Action_text_input error, missing argument: text")
+        self._text = config_['text']
+    
+    def _press_key(self, key: str):
+        if len(key) == 0:
+            return
+        if len(key) > 1:
+            key = key[0]
+        upper = False
+        if key.isupper():
+            upper = True
+        if upper:
+            pyautogui.keyDown('shiftleft')
+        k = key
+        if k in self._key_to_change:
+            k = self._key_to_change[k]
+        pyautogui.keyDown(k)
+        pyautogui.keyUp(k)
+        if upper:
+            pyautogui.keyUp('shiftleft')
+    
+    def call(self) -> bool:
+        for i in self._text:
+            self._press_key(i)
         return True
 
 
