@@ -4,3 +4,4 @@
 /baseimg
 /__pycache__
 *.spec
+test*

@@ -1,5 +1,6 @@
 from base import *
 from exceptions import *
+import global_var
 import utils
 import time
 import os
@@ -16,7 +17,8 @@ _actions_available = {
     'get_image_pos',
     'screen_shot',
     'remove_file',
-    'text_input'
+    'text_input',
+    'screen_shot_to_mem'
 }
 
 _actions_map = dict()
@@ -123,8 +125,25 @@ class Action_get_image_pos(Action):
         self._precision = config_['precision']
     
     def call(self) -> bool:
-        im_src = ac.imread(self._base)
-        im_tgt = ac.imread(self._image)
+        # im_src
+        if self._base[0] == '$':
+            if self._base[1] == '_':
+                data = global_var.get_var(self._base)
+            else:
+                data = self._root.get_var(self._base)
+            im_src = utils.aircv_read_from_array(data)
+        else:
+            im_src = ac.imread(self._base)
+        
+        # im_tgt
+        if self._image[0] == '$':
+            if self._image[1] == '_':
+                data = global_var.get_var(self._image)
+            else:
+                data = self._root.get_var(self._image)
+            im_tgt = utils.aircv_read_from_array(data)
+        else:
+            im_tgt = ac.imread(self._image)
         get = ac.find_template(im_src, im_tgt)
         if get is None:
             return False
@@ -219,6 +238,25 @@ class Action_text_input(Action):
     def call(self) -> bool:
         for i in self._text:
             self._press_key(i)
+        return True
+
+
+class Action_screen_shot_to_mem(Action):
+    def _parse_config(self, config_: dict) -> None:
+        key_words = [
+            'type',
+            'action',
+            'var'
+        ]
+        check = utils.check_config_arguments(key_words, config_)
+        if not check:
+            raise ParseErrorException('Loading Action_screen_shot_to_mem error, missing argument.')
+        self._var = config_['var']
+    
+    def call(self) -> bool:
+        image = ImageGrab.grab()
+        arr = utils.pillow_save_as_array(image)
+        self._root.set_var(self._var, arr)
         return True
 
 

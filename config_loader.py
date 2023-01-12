@@ -4,7 +4,7 @@ import utils
 import json
 
 
-_version = "1.2"
+_version = "1.3"
 
 
 class Config:
