@@ -72,13 +72,18 @@ class Event(Base):
         check = utils.check_var_name(name_)
         if not check:
             raise RunTimeException("Runtime error, var name error.")
+        if name_[1] == '_':
+            return global_var.get_var(name_)
         return self._vars[name_]
     
     def set_var(self, name_, value_):
         check = utils.check_var_name(name_)
         if not check:
             raise RunTimeException("Runtime error, var name error.")
-        self._vars[name_] = value_
+        if name_[1] == '_':
+            global_var.set_var(name_, value_)
+        else:
+            self._vars[name_] = value_
     
     def event_call(self):
         self._last_call += 1
@@ -131,20 +136,14 @@ class Event_image_appear(Event):
     def _event_check(self) -> None:
         # im_src
         if self._base[0] == '$':
-            if self._base[1] == '_':
-                data = global_var.get_var(self._base)
-            else:
-                data = self.get_var(self._base)
+            data = self.get_var(self._base)
             im_src = utils.aircv_read_from_array(data)
         else:
             im_src = ac.imread(self._base)
         
         # im_tgt
         if self._image[0] == '$':
-            if self._image[1] == '_':
-                data = global_var.get_var(self._image)
-            else:
-                data = self.get_var(self._image)
+            data = self.get_var(self._image)
             im_tgt = utils.aircv_read_from_array(data)
         else:
             im_tgt = ac.imread(self._image)

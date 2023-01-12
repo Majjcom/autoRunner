@@ -1,6 +1,5 @@
 from base import *
 from exceptions import *
-import global_var
 import utils
 import time
 import os
@@ -18,7 +17,7 @@ _actions_available = {
     'screen_shot',
     'remove_file',
     'text_input',
-    'screen_shot_to_mem'
+    'screen_shot_mem'
 }
 
 _actions_map = dict()
@@ -127,20 +126,14 @@ class Action_get_image_pos(Action):
     def call(self) -> bool:
         # im_src
         if self._base[0] == '$':
-            if self._base[1] == '_':
-                data = global_var.get_var(self._base)
-            else:
-                data = self._root.get_var(self._base)
+            data = self._root.get_var(self._base)
             im_src = utils.aircv_read_from_array(data)
         else:
             im_src = ac.imread(self._base)
         
         # im_tgt
         if self._image[0] == '$':
-            if self._image[1] == '_':
-                data = global_var.get_var(self._image)
-            else:
-                data = self._root.get_var(self._image)
+            data = self._root.get_var(self._image)
             im_tgt = utils.aircv_read_from_array(data)
         else:
             im_tgt = ac.imread(self._image)
@@ -241,7 +234,7 @@ class Action_text_input(Action):
         return True
 
 
-class Action_screen_shot_to_mem(Action):
+class Action_screen_shot_mem(Action):
     def _parse_config(self, config_: dict) -> None:
         key_words = [
             'type',
