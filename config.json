@@ -1,50 +1,50 @@
 {
-    "version": "1.3",
-    "interval": 1.0,
-    "checks": [
-        {
-            "type": "event",
-            "event": "null",
-            "rate": 1,
-            "todo": {
-                "type": "todo",
-                "actions": [
-                    {
-                        "type": "action",
-                        "action": "screen_shot_mem",
-                        "var": "$_desktop_image"
-                    }
-                ]
-            }
-        },
-        {
-            "type": "event",
-            "event": "image_appear",
-            "base": "$_desktop_image",
-            "image": "./baseimg/bili.png",
-            "precision": 0.95,
-            "var": "$last_pos",
-            "rate": 1,
-            "todo": {
-                "type": "todo",
-                "actions": [
-                    {
-                        "type": "action",
-                        "action": "move_mouse_to",
-                        "var": "$last_pos"
-                    },
-                    {
-                        "type": "action",
-                        "action": "sleep",
-                        "sleep_time": 0.2
-                    },
-                    {
-                        "type": "action",
-                        "action": "mouse_click",
-                        "push_time": 0.1
-                    }
-                ]
-            }
-        }
-    ]
+  "version": "1.3",
+  "interval": 1.0,
+  "checks": [
+    {
+      "type": "event",
+      "event": "null",
+      "rate": 1,
+      "todo": {
+        "type": "todo",
+        "actions": [
+          {
+            "type": "action",
+            "action": "screen_shot_mem",
+            "var": "$_desktop_image"
+          }
+        ]
+      }
+    },
+    {
+      "type": "event",
+      "event": "image_appear",
+      "base": "$_desktop_image",
+      "image": "./baseimg/bili.png",
+      "precision": 0.95,
+      "var": "$last_pos",
+      "rate": 1,
+      "todo": {
+        "type": "todo",
+        "actions": [
+          {
+            "type": "action",
+            "action": "move_mouse_to",
+            "var": "$last_pos"
+          },
+          {
+            "type": "action",
+            "action": "sleep",
+            "sleep_time": 0.2
+          },
+          {
+            "type": "action",
+            "action": "mouse_click",
+            "push_time": 0.1
+          }
+        ]
+      }
+    }
+  ]
 }
