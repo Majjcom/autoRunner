@@ -7,7 +7,6 @@ import time
 def main() -> None:
     path = './config.json'
     print('Reading config ...')
-    load = None
     try:
         load = config_loader.load_config_file(path)
     except:
