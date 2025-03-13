@@ -3,6 +3,7 @@ from exceptions import *
 import utils
 import time
 import os
+import subprocess
 
 from PIL import ImageGrab
 import aircv as ac
@@ -19,6 +20,7 @@ _actions_available = {
     "text_input",
     "text_input_file",
     "screen_shot_mem",
+    "run_command"
 }
 
 _actions_map = dict()
@@ -268,6 +270,21 @@ class Action_screen_shot_mem(Action):
         image = ImageGrab.grab()
         arr = utils.pillow_save_as_array(image)
         self._root.set_var(self._var, arr)
+        return True
+
+
+class Action_run_command(Action):
+    def _parse_config(self, config_: dict) -> None:
+        key_words = ["type", "action", "command"]
+        check = utils.check_config_arguments(key_words, config_)
+        if not check:
+            raise ParseErrorException(
+                "Loading Action_run_command error, missing argument."
+            )
+        self._cmd = config_["command"]
+
+    def call(self) -> bool:
+        os.system(self._cmd)
         return True
 
 

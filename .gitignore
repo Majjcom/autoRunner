@@ -1,6 +1,7 @@
 /venv
 /build
 /.vscode
+/.idea
 /baseimg
 /__pycache__
 *.spec
