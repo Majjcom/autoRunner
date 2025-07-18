@@ -20,6 +20,18 @@
 
 #### 使用Python脚本
 
+### 环境准备方式
+
+## 使用`uv`
+
+在项目目录下输入以下命令即可：
+
+```shell
+$ uv run main.py
+```
+
+## 传统方式
+
 - 首先，准备Python环境，基础环境Python版本应大于`3.8`
 - 安装以下依赖：
   - `Pillow`
@@ -31,8 +43,10 @@
 ```shell
 $ python --version
 $ python -m pip install -U pip
-$ pip install pillow opencv-python aircv pyautogui
+$ pip install -r requirments.txt
 ```
+
+### 配置文件
 
 - 编写`config.json`配置文件
   - 可以参考 `配置文件格式.md` 的实例json文件，配置文件内指令基本符合自然语义
