@@ -1,6 +1,6 @@
 import config_loader
 import traceback
-import baseobj
+import context
 import time
 
 
@@ -14,7 +14,7 @@ def main() -> None:
         print(info, end='')
         input('Press enter to close the program...')
         return
-    ctx = baseobj.RunningContext()
+    ctx = context.RunningContext()
     if not load:
         return
     ctx.load_config(load)

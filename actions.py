@@ -3,7 +3,6 @@ from exceptions import *
 import utils
 import time
 import os
-import subprocess
 
 from PIL import ImageGrab
 import aircv as ac
